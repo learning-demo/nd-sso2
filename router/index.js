@@ -1,9 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-router.route('/').get((req, res, next) => {
-  return res.json({ message: 'Welcome!' });
+const userController = require('../controller/user.controller')
+
+router.route('/api/ping').get((req, res) => {
+  return res.json({ ping: 'pong' });
 });
+
+
+router.route('/api/users').post(userController.createUser)
+
 
 // test
 router.route('/login').get((req, res, next) => {

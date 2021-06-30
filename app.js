@@ -10,15 +10,21 @@ const MongoStore = require('connect-mongo');
 
 const config = require('./configs/base');
 const router = require('./router')
+const initDBConn = require('./configs/database')
 
-
-let server;
 
 const startApp = async function () {
-  var app = express();
-
-  var port = process.env.PORT || config.port;
+  await initDBConn()
+  const port = process.env.PORT || config.port;
   const isDevelopmentEnv = process.env.NODE_ENV === 'development';
+
+  // global unhandled rejection
+  process.on("unhandledRejection", function (reason, promise) {
+    console.log("Unhandled", reason, promise);
+    throw reason;
+  });
+
+  var app = express();
 
   if (isDevelopmentEnv) {
     app.use(morgan('dev'));
@@ -37,21 +43,16 @@ const startApp = async function () {
   );
 
   app.use(router);
-  // global exception handler
   app.use(function (err, req, res, next) {
     console.error(err.stack);
     res.status(500).send({ error: err });
   });
 
-  server = app.listen(port);
+  let server = app.listen(port);
   console.log(`> Listening at port: ${port}\n`);
 
 }
 
 startApp();
 
-// global unhandled rejection
-process.on("unhandledRejection", function (reason, promise) {
-  console.log("Unhandled", reason, promise);
-  throw reason;
-});
+

@@ -14,6 +14,15 @@ const defaultConfig = {
     touchAfter: 24 * 3600,
     autoRemove: 'interval',
     autoRemoveInterval: 10 // In minutes. Default
+  },
+  db: {
+    uri: 'mongodb://admin:admin@10.224.198.39:27017/ng_sso?authSource=admin',
+    options: {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useFindAndModify: false,
+      useCreateIndex: true
+    }
   }
 
 }
