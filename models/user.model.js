@@ -4,14 +4,32 @@ const crypto = require('crypto');
 
 const UserSchema = new Schema(
   {
+    displayName: String,
     username: {
       type: String,
       required: true,
       index: true,
       unique: true,
     },
+    email: {
+      type: String,
+      lowercase: true,
+      trim: true,
+      default: ''
+    },
+    role: {
+      type: Schema.Types.ObjectId, ref: 'Role'
+    },
+    roles: [],
     salt: String,
     password: String,
+    provider: String,
+    providerData: {},
+    status: {
+      type: String,
+      enum: ['ACTIVE', 'INACTIVE'],
+      default: 'ACTIVE'
+    },
   },
   {
     timestamps: true,
@@ -38,6 +56,4 @@ UserSchema.methods.authenticate = function (password) {
   return this.password === this.hashPassword(password);
 };
 
-const UserModel = mongoose.model('User', UserSchema);
-
-module.exports = UserModel;
+module.exports = UserSchema;

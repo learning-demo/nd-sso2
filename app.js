@@ -14,7 +14,7 @@ const log4j = require('log4js')
 
 const config = require('./configs/base');
 const router = require('./router');
-const initDBConn = require('./configs/database');
+const { initDBConn } = require('./configs/database');
 const initializePassport = require('./configs/passport');
 const log4jsConfig = require('./configs/log4js')
 
