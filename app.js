@@ -1,3 +1,7 @@
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development';
+}
+
 const express = require('express');
 const morgan = require('morgan');
 const compression = require('compression');
@@ -6,29 +10,30 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const MongoStore = require('connect-mongo');
 const passport = require('passport');
+const log4j = require('log4js')
 
 const config = require('./configs/base');
 const router = require('./router');
 const initDBConn = require('./configs/database');
 const initializePassport = require('./configs/passport');
+const log4jsConfig = require('./configs/log4js')
 
-// global unhandled rejection
+log4j.configure(log4jsConfig);
+
 process.on('unhandledRejection', function (reason, promise) {
-  console.log('Unhandled', reason, promise);
+  log4j.getLogger().error('Get unhandled rejection event', reason, promise)
+  // exit
   throw reason;
 });
 
 const startApp = async function () {
-  if (!process.env.NODE_ENV) {
-    process.env.NODE_ENV = 'development';
-  }
   const port = process.env.PORT || config.port;
-  const isDevelopmentEnv = process.env.NODE_ENV === 'development';
+  const logger = log4j.getLogger('app')
 
-  let dbconn = await initDBConn();
+  await initDBConn();
   let app = express();
 
-  if (isDevelopmentEnv) {
+  if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
   } else {
     app.use(compression());
@@ -59,12 +64,12 @@ const startApp = async function () {
   // router
   app.use(router);
   app.use(function (err, req, res, next) {
-    console.error(err.stack);
+    logger.error(err.stack)
     res.status(500).send({ error: err });
   });
 
   let server = app.listen(port);
-  console.log(`> Listening at port: ${port}\n`);
+  logger.info(`> Listening at port: ${port}\n`);
 };
 
 startApp();
