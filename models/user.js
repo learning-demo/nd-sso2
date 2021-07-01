@@ -1,10 +1,15 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const crypto = require('crypto');
 
 const UserSchema = new Schema(
   {
-    username: String,
+    username: {
+      type: String,
+      required: true,
+      index: true,
+      unique: true,
+    },
     salt: String,
     password: String,
   },
@@ -12,7 +17,6 @@ const UserSchema = new Schema(
     timestamps: true,
   }
 );
-
 
 UserSchema.pre('save', function (next) {
   if (this.password && this.isModified('password')) {
@@ -34,6 +38,6 @@ UserSchema.methods.authenticate = function (password) {
   return this.password === this.hashPassword(password);
 };
 
-const UserModel = mongoose.model("User", UserSchema);
+const UserModel = mongoose.model('User', UserSchema);
 
 module.exports = UserModel;
