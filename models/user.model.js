@@ -10,17 +10,18 @@ const UserSchema = new Schema(
       required: true,
       index: true,
       unique: true,
+      trim: true,
     },
     email: {
       type: String,
       lowercase: true,
       trim: true,
-      default: ''
+      default: '',
     },
-    role: {
-      type: Schema.Types.ObjectId, ref: 'Role'
-    },
-    roles: [],
+    roles: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Role',
+    }],
     salt: String,
     password: String,
     provider: String,
@@ -28,7 +29,7 @@ const UserSchema = new Schema(
     status: {
       type: String,
       enum: ['ACTIVE', 'INACTIVE'],
-      default: 'ACTIVE'
+      default: 'ACTIVE',
     },
   },
   {
