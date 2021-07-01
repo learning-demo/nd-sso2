@@ -67,6 +67,9 @@ const startApp = async function () {
     logger.error(err.stack)
     res.status(500).send({ error: err });
   });
+  app.use(function (req, res, next) {
+    res.status(404).json({ status: 404, message: "Not Found" });
+  });
 
   let server = app.listen(port);
   logger.info(`> Listening at port: ${port}\n`);
