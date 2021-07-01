@@ -16,8 +16,10 @@ const defaultConfig = {
     autoRemoveInterval: 10 // In minutes. Default
   },
   db: {
-    uri: 'mongodb://admin:admin@10.224.198.39:27017/ng_sso?authSource=admin',
+    uri: 'mongodb://10.224.198.39:27017/ng_sso?authSource=admin',
     options: {
+      user: 'admin',
+      pass: 'admin',
       useNewUrlParser: true,
       useUnifiedTopology: true,
       useFindAndModify: false,
