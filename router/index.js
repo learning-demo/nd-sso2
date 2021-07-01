@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const userController = require('../controller/user.controller');
+const roleController = require('../controller/role.controller')
 const permissionCodeController = require('../controller/permissionCode.controller')
 
 router.route('/api/ping').get((req, res) => {
@@ -13,5 +14,9 @@ router.route('/api/users/logout').get(userController.logout);
 router.route('/api/users').post(userController.createUser);
 
 router.route('/api/permissioncodes').post(permissionCodeController.createPermisionCode)
+
+
+router.route('/api/roles').post(roleController.createRole)
+
 
 module.exports = router;
