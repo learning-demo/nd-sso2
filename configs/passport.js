@@ -27,13 +27,11 @@ async function initializePassport() {
   await initLocalStrategy();
 
   passport.serializeUser(function (user, done) {
-    console.log(`serializeUser: ${user.id}`);
     done(null, user.id);
   });
 
   passport.deserializeUser(async function (id, done) {
     const user = await userService.getUserById(id);
-    console.log(`deserializeUser: ${user.username}`);
     done(null, user);
   });
 }
