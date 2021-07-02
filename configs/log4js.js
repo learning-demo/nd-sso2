@@ -1,6 +1,6 @@
 const commonLayout = {
   type: 'pattern',
-  pattern: '%[[%d] [%p] [%z] %c -%] %m'
+  pattern: '%[[%d] [%p] [%z] [%c] -%] %m'
 };
 
 const log4jsConfig = {
