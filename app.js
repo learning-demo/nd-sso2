@@ -71,6 +71,9 @@ const startApp = async function () {
   app.use(cors())
   app.use(router);
   app.use(function (err, req, res, next) {
+    if (err.name === 'MongoError') {
+      return res.status(400).send({ error: err });
+    }
     logger.error(err.stack)
     res.status(500).send({ error: err });
   });
