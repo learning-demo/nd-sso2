@@ -9,6 +9,10 @@ router.route('/api/ping').get((req, res) => {
   return res.json({ ping: 'pong' });
 });
 
+router.route('/api/version').get((req, res) => {
+  return res.sendResult({ verison: '1.0.0' }, 200, 'success')
+});
+
 router.route('/api/users/login').post(userController.login);
 router.route('/api/users/logout').get(userController.logout);
 router.route('/api/users').post(userController.createUser);

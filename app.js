@@ -17,6 +17,7 @@ const router = require('./router');
 const { initDBConn } = require('./configs/database');
 const initializePassport = require('./configs/passport');
 const log4jsConfig = require('./configs/log4js')
+const responseResult = require('./utils/responseResult')
 
 log4j.configure(log4jsConfig);
 
@@ -60,6 +61,9 @@ const startApp = async function () {
   await initializePassport();
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // global method for customize responseResult format
+  app.use(responseResult)
 
   // router
   app.use(cors())
