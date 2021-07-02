@@ -6,6 +6,7 @@ const express = require('express');
 const morgan = require('morgan');
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
 const session = require('express-session');
 const flash = require('connect-flash');
 const MongoStore = require('connect-mongo');
@@ -62,6 +63,7 @@ const startApp = async function () {
   app.use(passport.session());
 
   // router
+  app.use(cors())
   app.use(router);
   app.use(function (err, req, res, next) {
     logger.error(err.stack)
