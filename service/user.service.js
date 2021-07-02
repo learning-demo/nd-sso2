@@ -1,4 +1,5 @@
-const { UserModel: User } = require('../configs/database');
+const _ = require('lodash')
+const { UserModel: User, RoleModel: Role, PermissionCodeModel: PermissionCode, PermissionCodeModel } = require('../configs/database');
 
 async function createUser(userData) {
   const user = new User(userData);
@@ -35,9 +36,36 @@ async function getUserById(id) {
   return user;
 }
 
+async function getUserPermissionCodeByUserId(id) {
+  let result = [];
+
+  const user = await User.findById(id).lean();
+  if (!user) {
+    return []
+  }
+
+  const userRoleIds = _.unionWith((user.roles || []), _.isEqual);
+  const roles = await Role.find({ _id: { $in: userRoleIds } }).lean();
+  for (role of roles) {
+    if (!role) {
+      continue;
+    }
+
+    const permissionCodeIds = _.unionWith((role.permissionCodes || []), _.isEqual);
+    const permissionCodes = await PermissionCode.find({ _id: { $in: permissionCodeIds } }).lean();
+    for (permissionCode of permissionCodes) {
+      result.push(permissionCode.code)
+    }
+  }
+
+  result = _.unionWith((result || []), _.isEqual)
+  return result;
+}
+
 module.exports = {
   createUser,
   getUserByUsername,
   getUserByUsernameAndPassword,
   getUserById,
+  getUserPermissionCodeByUserId,
 };

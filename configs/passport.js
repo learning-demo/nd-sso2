@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const _ = require('lodash')
 
 const userService = require('../service/user.service');
 
@@ -31,8 +32,15 @@ async function initializePassport() {
   });
 
   passport.deserializeUser(async function (id, done) {
-    const user = await userService.getUserById(id);
-    done(null, user);
+    try {
+      const user = await userService.getUserById(id);
+
+      const permissionCodes = await userService.getUserPermissionCodeByUserId(id)
+      user.permissionCodes = permissionCodes;
+      done(null, user);
+    } catch (err) {
+      done(err, null);
+    }
   });
 }
 

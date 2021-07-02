@@ -1,0 +1,6 @@
+mongoose schema：
+  User的roles和Roles的permission code可以是重复的元素。比如一个用户可以重复加入同一个组。
+  https://www.it1352.com/1634892.html
+
+mongoose REF:
+  如果删除子集合记录，父集合的记录会不会删除。
