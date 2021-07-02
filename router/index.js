@@ -21,9 +21,13 @@ router.route('/api/users').post(userController.createUser);
 
 
 router.route('/api/roles').post(roleController.createRole)
+// router.route('/api/user/:uid/roles').put(roleController.updateRole)
 
 
+
+router.route('/api/permissioncodes').get(permissionCodeController.listPermisionCodes)
 router.route('/api/permissioncodes').post(permissionCodeController.createPermisionCode)
+router.route('/api/permissioncodes/:id').put(permissionCodeController.updatePermisionCodeById)
 router.route('/api/permissioncodes/:id').delete(permissionCodeController.deletePermisionCodeById)
 
 
