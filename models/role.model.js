@@ -24,7 +24,8 @@ const RoleSchema = new mongoose.Schema(
     desc: String
   },
   {
-    timestamps: true
+    timestamps: true,
+    versionKey: false
   }
 );
 
