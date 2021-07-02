@@ -15,11 +15,16 @@ router.route('/api/version').get((req, res) => {
 
 router.route('/api/users/login').post(userController.login);
 router.route('/api/users/logout').get(userController.logout);
+
+
 router.route('/api/users').post(userController.createUser);
+
 
 router.route('/api/roles').post(roleController.createRole)
 
+
 router.route('/api/permissioncodes').post(permissionCodeController.createPermisionCode)
+router.route('/api/permissioncodes/:id').delete(permissionCodeController.deletePermisionCodeById)
 
 
 module.exports = router;

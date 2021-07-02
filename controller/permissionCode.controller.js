@@ -1,4 +1,8 @@
+const path = require('path')
+const log4js = require('log4js')
 const permissionCodeService = require('../service/permissionCode.service');
+
+const logger = log4js.getLogger(path.basename(__filename))
 
 async function createPermisionCode(req, res, next) {
   try {
@@ -13,6 +17,20 @@ async function createPermisionCode(req, res, next) {
   }
 }
 
+async function deletePermisionCodeById(req, res, next) {
+  try {
+    const permissionCodeId = req.params.id;
+    if (!permissionCodeId) {
+      return res.sendResult(null, 400, 'ID is required')
+    }
+    const permissionCode = await permissionCodeService.deletePermisionCodeById(permissionCodeId);
+    return res.sendResult(permissionCode, 200, 'Delete success');
+  } catch (err) {
+    next(err)
+  }
+}
+
 module.exports = {
   createPermisionCode,
+  deletePermisionCodeById
 };
