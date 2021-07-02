@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const _ = require('lodash')
 
 const RoleSchema = new mongoose.Schema(
   {
@@ -26,5 +27,11 @@ const RoleSchema = new mongoose.Schema(
     timestamps: true
   }
 );
+
+RoleSchema.pre('save', function (next) {
+  // unique permissionCodes array
+  this.permissionCodes = _.uniqBy(this.permissionCodes, id => id.toString())
+  next();
+});
 
 module.exports = RoleSchema

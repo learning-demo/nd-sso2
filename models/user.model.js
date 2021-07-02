@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const crypto = require('crypto');
+const _ = require('lodash')
 
 const UserSchema = new Schema(
   {
@@ -38,10 +39,14 @@ const UserSchema = new Schema(
 );
 
 UserSchema.pre('save', function (next) {
+  // hash password
   if (this.password && this.isModified('password')) {
     this.salt = crypto.randomBytes(16).toString('base64');
     this.password = this.hashPassword(this.password);
   }
+
+  // unique role array
+  this.roles = _.uniqBy(this.roles, id => id.toString())
   next();
 });
 
