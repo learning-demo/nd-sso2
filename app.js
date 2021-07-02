@@ -3,6 +3,7 @@ if (!process.env.NODE_ENV) {
 }
 
 const express = require('express');
+const morgan = require('morgan')
 const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors')
@@ -35,7 +36,8 @@ const startApp = async function () {
   let app = express();
 
   if (process.env.NODE_ENV === 'development') {
-    app.use(log4j.connectLogger(logger))
+    app.use(morgan('dev'))
+    // app.use(log4j.connectLogger(logger))
   } else {
     app.use(compression());
   }
