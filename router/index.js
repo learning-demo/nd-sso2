@@ -16,8 +16,11 @@ router.route('/api/version').get((req, res) => {
 router.route('/api/users/login').post(userController.login);
 router.route('/api/users/logout').get(userController.logout);
 
+router.route('/api/users').get(userController.listUser);
+router.route('/api/users/:id').get(userController.getUserById);
 router.route('/api/users').post(userController.createUser);
-// router.route('/api/user/:uid/roles').put(roleController.updateRole)
+router.route('/api/users/:id').delete(userController.deleteUserById);
+router.route('/api/users/:id').put(userController.updateUserById);
 
 router.route('/api/roles').get(roleController.listRole);
 router.route('/api/roles/:id').get(roleController.getRoleById);

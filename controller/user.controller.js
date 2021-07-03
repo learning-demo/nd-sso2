@@ -23,7 +23,31 @@ async function logout(req, res, next) {
     // res.clearCookie('SSO-SID');
     req.logout();
     return res.status(200).json({ status: '200', message: 'Logout Successfully' });
-  } catch (err) { next(err) }
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function listUser(req, res, next) {
+  try {
+    const users = await userService.listUser();
+    return res.sendResult(users, 200, null);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function getUserById(req, res, next) {
+  try {
+    const userId = req.params.id;
+    if (!userId) {
+      res.sendResult(null, 400, 'ID is required.');
+    }
+    const user = await userService.getUserById(userId);
+    return res.sendResult(user, 200, null);
+  } catch (err) {
+    next(err);
+  }
 }
 
 async function createUser(req, res, next) {
@@ -35,12 +59,43 @@ async function createUser(req, res, next) {
     await userService.createUser(userData);
     return res.status(201).json({ status: 'success' });
   } catch (err) {
-    next(err)
+    next(err);
+  }
+}
+
+async function deleteUserById(req, res, next) {
+  try {
+    const userId = req.params.id;
+    if (!userId) {
+      res.sendResult(null, 400, 'ID is required.');
+    }
+    const user = await userService.deleteUserById(userId);
+    return res.sendResult(user, 200, null);
+  } catch (err) {
+    next(err);
+  }
+}
+
+async function updateUserById(req, res, next) {
+  try {
+    const userId = req.params.id;
+    const userInfo = req.body;
+    if (!userId || !userInfo) {
+      res.sendResult(null, 400, 'ID and user info is required.');
+    }
+    const user = await userService.updateUserById(userId, userInfo);
+    return res.sendResult(user, 200, null);
+  } catch (err) {
+    next(err);
   }
 }
 
 module.exports = {
   login,
   logout,
-  createUser
+  listUser,
+  getUserById,
+  createUser,
+  deleteUserById,
+  updateUserById,
 };
