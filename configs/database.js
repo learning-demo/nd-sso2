@@ -15,6 +15,7 @@ async function initDBConn() {
   let uri = config.db.uri;
   let options = config.db.options;
 
+  // mongoose.set('debug', true);
   // callback event
   mongoose.connection.on('error', function (err) {
     logger.error(`Failed to connect to ${uri}: ${err}`);
