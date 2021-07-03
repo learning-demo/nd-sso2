@@ -24,7 +24,7 @@ router.route('/api/version').get((req, res) => {
 
 router.route('/api/users/login').post(userController.login);
 router.route('/api/users/logout').get(userController.logout);
-router.route('/api/user/checkPermission').post(userController.checkPermission);
+router.route('/api/users/checkPermission').post(userController.checkPermission);
 
 router.route('/api/users').get(userController.listUser);
 router.route('/api/users').post(userController.createUser);
