@@ -25,6 +25,11 @@ const defaultConfig = {
       useFindAndModify: false,
       useCreateIndex: true
     }
+  },
+  requestDefaultConfig: {
+    baseURL: "http://localhost:8888",
+    timeout: 15 * 1000
+    // proxy: ""
   }
 
 }
