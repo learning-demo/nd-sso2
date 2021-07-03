@@ -1,5 +1,8 @@
-const userService = require('../service/user.service');
 const passport = require('passport');
+const _ = require('lodash')
+
+const userService = require('../service/user.service');
+const config = require('../configs/base')
 
 async function login(req, res, next) {
   passport.authenticate('local', function (err, user, info) {
@@ -27,6 +30,25 @@ async function logout(req, res, next) {
     next(err);
   }
 }
+
+
+async function checkPermission(req, res, next) {
+  try {
+    const permissionCode = req.body.permissionCode;
+    if (req.user && _.includes(req.user.permissionCodes, permissionCode)) {
+      const responseData = {
+        sessionKey: config.sessionConfig.name,
+        maxAge: config.sessionConfig.cookie.maxAge,
+      }
+      return res.sendResult(responseData, 200, "success");
+    } else {
+      return res.sendResult(null, 400, "failed");
+    }
+  } catch (err) {
+    next(err);
+  }
+}
+
 
 async function listUser(req, res, next) {
   try {
@@ -93,6 +115,7 @@ async function updateUserById(req, res, next) {
 module.exports = {
   login,
   logout,
+  checkPermission,
   listUser,
   getUserById,
   createUser,
