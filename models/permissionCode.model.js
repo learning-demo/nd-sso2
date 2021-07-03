@@ -8,7 +8,7 @@ const PermissionCodesSchema = new mongoose.Schema(
       index: true,
       unique: true,
       trim: true,
-      lowercase: true
+      uppercase: true
     },
     desc: String,
   },

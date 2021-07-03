@@ -5,6 +5,15 @@ const userController = require('../controller/user.controller');
 const roleController = require('../controller/role.controller');
 const permissionCodeController = require('../controller/permissionCode.controller');
 
+// Authrization middleware
+const { isAuthenticate, checkPermissionCodeFn } = require('../utils/authrization')
+
+const isAuthenticateFilter = isAuthenticate()
+const adminPermisionFilter = checkPermissionCodeFn('USER_CONTRIBUTRO')
+
+
+// Router
+
 router.route('/api/ping').get((req, res) => {
   return res.json({ ping: 'pong' });
 });
@@ -17,9 +26,9 @@ router.route('/api/users/login').post(userController.login);
 router.route('/api/users/logout').get(userController.logout);
 
 router.route('/api/users').get(userController.listUser);
-router.route('/api/users/:id').get(userController.getUserById);
 router.route('/api/users').post(userController.createUser);
-router.route('/api/users/:id').delete(userController.deleteUserById);
+router.route('/api/users/:id').get(userController.getUserById);
+router.route('/api/users/:id').delete(adminPermisionFilter, userController.deleteUserById);
 router.route('/api/users/:id').put(userController.updateUserById);
 
 router.route('/api/roles').get(roleController.listRole);
