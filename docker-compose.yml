@@ -1,14 +1,15 @@
-version: "3.1"
-
+version: '2'
 services:
-  mongo:
-    image: mongo
-    restart: always
-    volumes:
-      - /root/mongo/data:/data/db
-      - /root/mongo/conf:/etc/mongo
+  SSO:
+    image: node:12.10.0-alpine
     ports:
-      - 27017:27017
+      - 8888:8888/tcp
     environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
+      - NODE_ENV=${NODE_ENV}
+    restart: always
+    privileged: true
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: '5'
