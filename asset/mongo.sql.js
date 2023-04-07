@@ -1,3 +1,4 @@
+// use ng_sso;
 // Permission
 db.permissioncodes.insertOne(
   {

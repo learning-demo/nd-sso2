@@ -10,13 +10,13 @@ const defaultConfig = {
     }
   },
   sessionMongoStoreOptions: {
-    mongoUrl: 'mongodb://admin:admin@10.224.198.39:27017/ng_sso?authSource=admin',
+    mongoUrl: 'mongodb://admin:admin@127.0.0.1:27017/ng_sso?authSource=admin',
     touchAfter: 24 * 3600,
     autoRemove: 'interval',
     autoRemoveInterval: 10 // In minutes. Default
   },
   db: {
-    uri: 'mongodb://10.224.198.39:27017/ng_sso?authSource=admin',
+    uri: 'mongodb://127.0.0.1:27017/ng_sso?authSource=admin',
     options: {
       user: 'admin',
       pass: 'admin',
