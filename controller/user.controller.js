@@ -23,8 +23,9 @@ async function login(req, res, next) {
 
 async function logout(req, res, next) {
   try {
-    // res.clearCookie('SSO-SID');
-    req.logout();
+    // req.logout();
+    req.session.destroy();
+    res.clearCookie('SSO-SID');
     return res.status(200).json({ status: '200', message: 'Logout Successfully' });
   } catch (err) {
     next(err);
