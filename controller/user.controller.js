@@ -51,6 +51,20 @@ async function checkPermission(req, res, next) {
   }
 }
 
+async function getCurrentUserDetails(req, res, next) {
+  try {
+    const user = req.user;
+    if (!user){
+      res.sendResult(null, 401, 'please login');
+    }
+    const userDetails = await userService.getUserById(user._id)
+    userDetails.permissionCodes = await userService.getUserPermissionCodeByUserId(user._id)
+    return res.sendResult(userDetails, 200);
+  } catch (err) {
+    next(err);
+  }
+}
+
 
 async function listUser(req, res, next) {
   try {
@@ -118,6 +132,7 @@ module.exports = {
   login,
   logout,
   checkPermission,
+  getCurrentUserDetails,
   listUser,
   getUserById,
   createUser,
