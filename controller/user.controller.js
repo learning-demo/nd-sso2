@@ -16,7 +16,8 @@ async function login(req, res, next) {
       if (err) {
         return res.status(500).send({ status: '500', message: err.toString() });
       }
-      return res.status(200).json({ status: '200' });
+      // login success
+      return res.sendResult(null, 200)
     });
   })(req, res, next);
 }
